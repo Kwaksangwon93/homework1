@@ -16,7 +16,7 @@
             private bool isBuy;
 
 
-            public Item(string type, string name, int ap, int dp, int hp, int gold, string description)
+            public Item(string type, string name, int ap, int dp, int gold, string description)
             {
                 this.type = type;
                 this.name = name;
@@ -91,11 +91,6 @@
                     Console.Write("방어력 + {0}", this.dp);
                     Console.Write("\t| ");
                 }
-                if (this.hp != 0)
-                {
-                    Console.Write("체력 + {0}", this.hp);
-                    Console.Write("\t| ");
-                }
                 Console.Write("{0}\t| ", this.description);
                 if (this.isBuy != true)
                 {
@@ -126,11 +121,6 @@
                     Console.Write("방어력 + {0}", this.dp);
                     Console.Write("\t| ");
                 }
-                if (this.hp != 0)
-                {
-                    Console.Write("체력 + {0}", this.hp);
-                    Console.Write("\t| ");
-                }
                 Console.WriteLine(this.description);
             }
 
@@ -146,10 +136,6 @@
                 {
                     character.EquipItemDp(this.dp);
                 }
-                if (this.hp != 0)
-                {
-                    character.EquipItemHp(this.hp);
-                }
             }
             public void UnequipItem(Character character)
             {
@@ -160,10 +146,6 @@
                 if (this.dp != 0)
                 {
                     character.UnequipItemDp(this.dp);
-                }
-                if (this.hp != 0)
-                {
-                    character.UnequipItemHp(this.hp);
                 }
             }
         }
@@ -213,17 +195,9 @@
             }
             public void UnequipItemDp(int dp)
             {
-                this.itemHp -= dp;
+                this.itemDp -= dp;
             }
-            public void EquipItemHp(int hp)
-            {
-                this.itemHp += hp;
-            }
-            public void UnequipItemHp(int hp)
-            {
-                this.itemHp -= hp;
-            }
-
+            
             public void Status()
             {
                 Console.Clear();
@@ -268,10 +242,12 @@
 
                 Console.WriteLine("　0. 나가기");
                 Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("　원하시는 행동을 입력해주세요.");
                 while (true)
                 {
                     Console.WriteLine("　>> ");
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("────────────────────────────────────────────────────────────");
                     string num = Console.ReadLine();
                     switch (num)
@@ -285,7 +261,7 @@
                     }
                 }
             }
-
+            
             public void Inventory()
             {
                 Console.Clear();
@@ -302,8 +278,10 @@
                 Console.WriteLine("　1. 장착 관리");
                 Console.WriteLine("　0. 나가기");
                 Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("　원하시는 행동을 입력해주세요.");
                 Console.WriteLine("　>>");
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("────────────────────────────────────────────────────────────");
                 while (true)
                 {
@@ -332,8 +310,10 @@
                                     Console.WriteLine();
                                     Console.WriteLine("　0. 나가기");
                                     Console.WriteLine();
+                                    Console.ForegroundColor = ConsoleColor.Magenta;
                                     Console.WriteLine("　원하시는 항목을 입력해주세요.");
                                     Console.WriteLine("　>> ");
+                                    Console.ForegroundColor = ConsoleColor.White;
                                     Console.WriteLine("────────────────────────────────────────────────────────────");
                                     string num2 = Console.ReadLine();
                                     switch (num2)
@@ -350,12 +330,13 @@
                                                 if (temp == false)
                                                 {
                                                     Console.WriteLine("　장착 되었습니다.");
-                                                }
+                                                    Thread.Sleep(500);
+                                                }                                                
                                                 else if (temp == true)
                                                 {
                                                     Console.WriteLine("　해제 되었습니다.");
+                                                    Thread.Sleep(500);
                                                 }
-                                                Thread.Sleep(500);
                                                 break;
                                             }
                                             else
@@ -396,8 +377,10 @@
                     Console.WriteLine("　1. 아이템 구매");
                     Console.WriteLine("　0. 나가기");
                     Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.WriteLine("　원하시는 행동을 입력해주세요.");
                     Console.WriteLine("　>> ");
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("────────────────────────────────────────────────────────────");
                     string num = Console.ReadLine();
                     switch (num)
@@ -420,8 +403,10 @@
                                 Console.WriteLine();
                                 Console.WriteLine("　0. 나가기");
                                 Console.WriteLine();
+                                Console.ForegroundColor = ConsoleColor.Magenta;
                                 Console.WriteLine("　원하시는 항목을 입력해주세요.");
                                 Console.WriteLine("　>> ");
+                                Console.ForegroundColor = ConsoleColor.White;
                                 Console.WriteLine("────────────────────────────────────────────────────────────");
                                 string num2 = Console.ReadLine();
                                 int index = int.Parse(num2);
@@ -431,12 +416,13 @@
                                     if (temp == false)
                                     {
                                         shop[index - 1].ToggleIsBuy(this);
+                                        Thread.Sleep(500);
                                     }
                                     else if (temp == true)
                                     {
                                         Console.WriteLine("　이미 구매한 아이템입니다.");
+                                        Thread.Sleep(500);
                                     }
-                                    Thread.Sleep(500);
                                     break;
                                 }
                                 else if (index == 0)
@@ -535,18 +521,22 @@
 
             public void Init()
             {
-                Item item1 = new Item("전신갑옷", "무쇠갑옷", 0, 10, 0, 1500, "무쇠로 만들어져 튼튼한 갑옷입니다.");
+                Item item1 = new Item("방어구", "상원이의 훈도시", 0, 3, 500, "남이 입진 못할 것 같다.　　　　　　　 ");
                 this.shop.Add(item1);
-                Item item2 = new Item("무기", "스파르타의 창", 9, 0, 0, 3500, "스파르타의 전사들이 사용했다는 전설의 창입니다.");
+                Item item2 = new Item("방어구", "성훈이의 유카타", 0, 6, 1500, "살짝 풀어헤친 모습이 보기 좋진 않다.　　　");
                 this.shop.Add(item2);
-                Item item3 = new Item("무기", "낡은 검", 2, 0, 0, 300, "쉽게 볼 수 있는 낡은 검입니다.");
+                Item item3 = new Item("방어구", "은수님의 기모노", 0, 10, 2500, "고풍스러운 느낌이 물씬 풍겨온다.　　　");
                 this.shop.Add(item3);
-                Item item4 = new Item("전신갑옷", "수련자 갑옷", 0, 5, 0, 1000, "수련에 도움을 주는 갑옷입니다.");
+                Item item4 = new Item("방어구", "하람이의 투명망토", 0, 1, 10000, "보이지 않는 만큼 방어력도 잃은 듯 하다.");
                 this.shop.Add(item4);
-                Item item5 = new Item("전신갑옷", "스파르타의 갑옷", 0, 15, 0, 3500, "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.");
+                Item item5 = new Item("무기", "상원이의 주먹도끼", 3, 0, 1000, "돌은 마구 으깨놓은 모양새다. 맞으면 아프긴 할 것 같다.");
                 this.shop.Add(item5);
-                Item item6 = new Item("무기", "청동 도끼", 5, 0, 0, 1500, "누군가 사용한 흔적이 서린 도끼입니다.");
+                Item item6 = new Item("무기", "성훈이의 빗살무늬토기", 8, 0, 3500, "저건 애초에 무기가 아니지... 윽... 생각보다 아프다.");
                 this.shop.Add(item6);
+                Item item7 = new Item("무기", "은수님의 청동검", 13, 0, 1500, "유일하게 정상적인 무기다.");
+                this.shop.Add(item7);
+                Item item8 = new Item("무기", "하람이의 에어건", 1, 0, 10000, "바람이 날아오긴 하지만 아프지 않다.");
+                this.shop.Add(item8);
             }
         }
 
@@ -619,8 +609,10 @@
                 Console.WriteLine("");
                 Console.WriteLine("　0. 게 임 끝 내 기");
                 Console.WriteLine("");
+                Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("　원하시는 행동을 입력해주세요.");
                 Console.WriteLine("　>>");
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("────────────────────────────────────────────────────────────");
                 string menu = Console.ReadLine();
 
@@ -648,3 +640,5 @@
         }
     }
 }
+
+// 위 코드는 C05조 김성훈님의 코드를 기반으로 제작됨
